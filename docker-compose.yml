@@ -1,0 +1,35 @@
+---
+version: "3.7"
+services:
+  umami:
+    image: ghcr.io/mikecao/umami:postgresql-latest
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      DATABASE_URL: postgresql://umami:umami@db:5432/umami
+      DATABASE_TYPE: postgresql
+      HASH_SALT: $HASH_SALT
+      VIRTUAL_PORT: 3000
+      VIRTUAL_HOST: $PROXY_VIRTUAL_HOST
+    depends_on:
+      - db
+    networks:
+      - net
+      - db
+  db:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    volumes:
+      - ./sql/schema.postgresql.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - db
+networks:
+  db:
+  net:
+    external:
+      name: net
