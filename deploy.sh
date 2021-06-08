@@ -7,6 +7,8 @@ REMOTE_PATH=/home/guillaume/www/stats/
 
 rsync -av --delete \
     --exclude=deploy.sh \
+    --exclude=README.md \
+    --exclude=UNLICENSE.txt \
     --exclude=.git \
     --exclude=.env \
     --exclude=*.dist \
