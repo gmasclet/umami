@@ -2,7 +2,7 @@
 version: "3.7"
 services:
   umami:
-    image: ghcr.io/mikecao/umami:postgresql-latest
+    image: ghcr.io/mikecao/umami:postgresql-5d74e86
     restart: unless-stopped
     expose:
       - "3000"
@@ -18,7 +18,7 @@ services:
       - net
       - db
   db:
-    image: postgres:12-alpine
+    image: postgres:12.9-alpine3.15
     restart: unless-stopped
     environment:
       POSTGRES_DB: umami
